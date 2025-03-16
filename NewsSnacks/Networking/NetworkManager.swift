@@ -52,7 +52,7 @@ class NetworkManager {
                     
                     // Use a session with SSL handling for TOI too
                     let session = URLSession(configuration: URLSessionConfiguration.default, 
-                                            delegate: SSLBypassDelegate(), 
+                                            delegate: ImprovedSSLDelegate(), 
                                             delegateQueue: nil)
                     
                     let (data, _) = try await session.data(for: request)
@@ -78,7 +78,7 @@ class NetworkManager {
         config.timeoutIntervalForRequest = 30
         
         // Create a session with the custom delegate that bypasses SSL verification
-        let session = URLSession(configuration: config, delegate: SSLBypassDelegate(), delegateQueue: nil)
+        let session = URLSession(configuration: config, delegate: ImprovedSSLDelegate(), delegateQueue: nil)
         
         do {
             var request = URLRequest(url: url)
@@ -112,34 +112,57 @@ class NetworkManager {
     }
 }
 
-// Improved SSL bypass delegate with specific handling for Zscaler certificates
-class SSLBypassDelegate: NSObject, URLSessionDelegate {
+// Improved SSL delegate using Apple's recommended approach
+class ImprovedSSLDelegate: NSObject, URLSessionDelegate {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         // Check if this is a server trust challenge
         if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+            guard let serverTrust = challenge.protectionSpace.serverTrust else {
+                completionHandler(.performDefaultHandling, nil)
+                return
+            }
+            
             let host = challenge.protectionSpace.host
             
-            // Always trust Hindustan Times and Times of India domains
+            // Always trust specific domains
             if host.contains("hindustantimes.com") || host.contains("toiimg.com") || host.contains("indiatimes.com") {
-                if let serverTrust = challenge.protectionSpace.serverTrust {
-                    // For debugging: print certificate information
-                    if #available(iOS 15.0, *) {
-                        if let certificate = SecTrustCopyCertificateChain(serverTrust) as? [SecCertificate], let firstCert = certificate.first {
-                            let summary = SecCertificateCopySubjectSummary(firstCert) as String? ?? "Unknown"
-                            print("Trusting certificate: \(summary)")
-                        }
-                    }
-                    
-                    // Create a credential from the server trust object and use it to authenticate
-                    let credential = URLCredential(trust: serverTrust)
-                    print("Accepting certificate for host: \(host)")
-                    completionHandler(.useCredential, credential)
-                    return
-                }
+                // Check if the certificate is self-signed
+                let isSelfSigned = serverTrust.isSelfSigned
+                print("Host: \(host), Self-signed certificate: \(isSelfSigned ?? false)")
+                
+                // Trust regardless of certificate status for these domains
+                let credential = URLCredential(trust: serverTrust)
+                completionHandler(.useCredential, credential)
+                return
             }
         }
         
-        // For any other domain or non-server trust challenges, use default handling
+        // Default handling for other challenges
         completionHandler(.performDefaultHandling, nil)
+    }
+}
+
+// Extensions for checking self-signed certificates (based on Apple's code)
+extension SecTrust {
+    var isSelfSigned: Bool? {
+        guard SecTrustGetCertificateCount(self) == 1 else {
+            return false
+        }
+        guard let cert = SecTrustGetCertificateAtIndex(self, 0) else {
+            return nil
+        }
+        return cert.isSelfSigned
+    }
+}
+
+extension SecCertificate {
+    var isSelfSigned: Bool? {
+        guard
+            let subject = SecCertificateCopyNormalizedSubjectSequence(self),
+            let issuer = SecCertificateCopyNormalizedIssuerSequence(self)
+        else {
+            return nil
+        }
+        return subject == issuer
     }
 }

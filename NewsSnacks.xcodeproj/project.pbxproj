@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA1E841C2D8592F000C03A73 /* news.json in Resources */ = {isa = PBXBuildFile; fileRef = DA1E841B2D8592E800C03A73 /* news.json */; };
+		DA7F5BFA2D85FAE60069C4EB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DA7F5BF92D85FAE60069C4EB /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,11 +33,25 @@
 		DA1E83FE2D8592C900C03A73 /* NewsSnacksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsSnacksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1E84082D8592C900C03A73 /* NewsSnacksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsSnacksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1E841B2D8592E800C03A73 /* news.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = news.json; sourceTree = "<group>"; };
+		DA7F5BF92D85FAE60069C4EB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DA7F5BF82D85F7A90069C4EB /* Exceptions for "NewsSnacks" folder in "NewsSnacks" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DA1E83ED2D8592C700C03A73 /* NewsSnacks */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DA1E83F02D8592C700C03A73 /* NewsSnacks */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DA7F5BF82D85F7A90069C4EB /* Exceptions for "NewsSnacks" folder in "NewsSnacks" target */,
+			);
 			path = NewsSnacks;
 			sourceTree = "<group>";
 		};
@@ -80,6 +95,7 @@
 		DA1E83E52D8592C700C03A73 = {
 			isa = PBXGroup;
 			children = (
+				DA7F5BF92D85FAE60069C4EB /* PrivacyInfo.xcprivacy */,
 				DA1E83F02D8592C700C03A73 /* NewsSnacks */,
 				DA1E84012D8592C900C03A73 /* NewsSnacksTests */,
 				DA1E840B2D8592C900C03A73 /* NewsSnacksUITests */,
@@ -218,6 +234,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7F5BFA2D85FAE60069C4EB /* PrivacyInfo.xcprivacy in Resources */,
 				DA1E841C2D8592F000C03A73 /* news.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,11 +422,13 @@
 				DEVELOPMENT_ASSET_PATHS = "\"NewsSnacks/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NewsSnacks/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -433,11 +452,13 @@
 				DEVELOPMENT_ASSET_PATHS = "\"NewsSnacks/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NewsSnacks/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
